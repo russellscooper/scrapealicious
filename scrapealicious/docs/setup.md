@@ -1,3 +1,27 @@
+<!-----
+
+
+
+Conversion time: 0.459 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β35
+* Mon Nov 20 2023 17:32:30 GMT-0800 (PST)
+* Source doc: Project Initialization
+----->
+
+
+
+
 1. Set up project with Pipenv
     1. Follow the [pipenv installtion guide](https://realpython.com/pipenv-guide/)
     2. Create a new project directory and navigate to it in the terminal. 
