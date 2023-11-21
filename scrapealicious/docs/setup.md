@@ -22,6 +22,9 @@ Conversion notes:
 
 
 
+<h1>Project Set Up and Management</h2>
+<h2>Samuel Cooper</h2>
+<h2>11/20/2023</h2>
 
 * Set up project with Pipenv
     * Follow the [pipenv installtion guide](https://realpython.com/pipenv-guide/)
