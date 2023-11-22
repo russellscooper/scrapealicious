@@ -23,4 +23,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: scrapealicious/docs/_build/html
     - name: List contents of _build/html
-      run: ls -R docs/_build/html
+      run: ls -R scrapealicious/docs/_build/html
