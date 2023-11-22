@@ -17,7 +17,7 @@ jobs:
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
       with:
-        docs-folder: scrapealicious/scrapealicious/docs   
+        docs-folder: scrapealicious/docs   
         build-command: make html
 
     - name: Upload artifacts
