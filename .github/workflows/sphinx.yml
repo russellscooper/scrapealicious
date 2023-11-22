@@ -1,6 +1,9 @@
-name: "Sphinx: Render docs"
+name: Sphinx Documentation
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -8,20 +11,25 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Build HTML
       uses: ammaraskar/sphinx-action@master
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: html-docs
-        path: scrapealicious/docs/_build/html
+        path: scrapealicious/scrapealicious/docs/_build/html
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: scrapealicious/docs/_build/html
+        publish_dir: scrapealicious/scrapealicious/docs/_build/html
+
     - name: List contents of _build/html
-      run: ls -R scrapealicious/docs/_build/html
-  
+      run: ls -R scrapealicious/scrapealicious/docs/_build/html
+
