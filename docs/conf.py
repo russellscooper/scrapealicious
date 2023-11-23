@@ -15,10 +15,14 @@ extensions = [
     'sphinx.ext.napoleon'
 ]
 
+html_output_directory = os.path.join('..', '..')
+
+html_extra_path = [html_output_directory]
+
 templates_path = ['_templates']
 sys.path.append(os.path.abspath('C:\\Users\\samco\\2023\\scrapealicious\\scrapealicious\\app'))
 
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.git']
 
 
 
