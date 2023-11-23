@@ -66,9 +66,9 @@ class Security():
         """
         self.secure = secure
     
-    def secure_string(self, user_string):
+    def secure_string(self, user_string, max_length=255):
         """
-        Method to secure user inputs
+        Method to secure user input strings
         """
         if isinstance(user_string, str):
             #rws stands for removed white space
@@ -76,6 +76,9 @@ class Security():
             #rtc stands for remove threat characters
             rtc_string = re.sub(r"[;'\"]", '', rws_string)
 
+            #enforce length limitation policy
+            if len(rtc_string) > max_length:
+                raise ValueError(f"Input exceeds maximum length of {max_length} characters.")
             return rtc_string
         else:
             raise ValueError("Invalid input type. Please provide a sting.")
