@@ -2,6 +2,7 @@
 import requests
 import re
 
+
 #Abstract class for endpoint scanning
 class Scanner:
     """
@@ -57,8 +58,35 @@ class Scanner:
         v = self.validate_endpoint(c)
         return v
     
+class Security():
+    """This code attempts to apply security features to the applications features."""
+    def __init__(self, secure) -> None:
+        """
+        Class constructor for security features
+        """
+        self.secure = secure
     
-#Test Case 
-Scan = Scanner("https://twitter.com/home")
-Data = Scan.scan_for_endpoints()
-print(Data)
+    def secure_string(self, user_string):
+        """
+        Method to secure user inputs
+        """
+        if isinstance(user_string, str):
+            #rws stands for removed white space
+            rws_string = user_string.strip()
+            #rtc stands for remove threat characters
+            rtc_string = re.sub(r"[;'\"]", '', rws_string)
+
+            return rtc_string
+        else:
+            raise ValueError("Invalid input type. Please provide a sting.")
+
+
+#Test Cases 
+#Scan = Scanner("https://twitter.com/home")
+#Data = Scan.scan_for_endpoints()
+#print(Data)
+
+secure_strings = Security(secure=True)
+name = input("What is your name: ")
+secured_name = secure_strings.secure_string(name)
+print("Value: ", secured_name)
