@@ -89,7 +89,7 @@ class Security():
 #Data = Scan.scan_for_endpoints()
 #print(Data)
 
-secure_strings = Security(secure=True)
-name = input("What is your name: ")
-secured_name = secure_strings.secure_string(name)
-print("Value: ", secured_name)
+#secure_strings = Security(secure=True)
+#name = input("What is your name: ")
+#secured_name = secure_strings.secure_string(name)
+#print("Value: ", secured_name)
