@@ -30,7 +30,29 @@ class ScannerTest(unittest.TestCase):
         self.assertTrue(len(valid_urls) > 0)
 
 class SecurityTest(unittest.TestCase):
-    pass
+    def setTest(self):
+        self.security_instance = Security(secure=True)
 
+    def secure_string_test(self):
+        '''
+        test to see if method removes white spaces and threat characters.
+        '''
+        input_string = " test'; input\" "
+        expect = 'test input'
+        self.assertEqual(self.security_instance.secure_string(input_string), expect)
+
+    def max_length_test(self):
+        '''
+        Test if method raises value error for strings exceeding maximum length
+        '''
+        input_string = '.' * 300
+        with self.assertRaises(ValueError):
+            self.security_instance.secure_string(input_string)
+
+    def valid_input_test(self):
+        invalid_input = 12345
+        with self.assertRaises(ValueError):
+            self.security_instance.secure_string(invalid_input)
+            
 if __name__ == '__main__':
     unittest.main()
