@@ -82,14 +82,3 @@ class Security():
             return rtc_string
         else:
             raise ValueError("Invalid input type. Please provide a sting.")
-
-
-#Test Cases 
-#Scan = Scanner("https://twitter.com/home")
-#Data = Scan.scan_for_endpoints()
-#print(Data)
-
-#secure_strings = Security(secure=True)
-#name = input("What is your name: ")
-#secured_name = secure_strings.secure_string(name)
-#print("Value: ", secured_name)

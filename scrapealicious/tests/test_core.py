@@ -1,6 +1,6 @@
 #Sprint One Unit Tests
 import unittest
-from app.core.tools import Scanner, Security
+from src.core.tools import Scanner, Security
 
 class ScannerTest(unittest.TestCase):
     def test_extractor(self):
