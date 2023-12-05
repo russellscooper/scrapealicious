@@ -1,7 +1,7 @@
 #Tools used in the core functionality of the application 
 import requests
 import re
-
+from bs4 import BeautifulSoup as bs
 
 #Abstract class for endpoint scanning
 class Scanner:
@@ -83,3 +83,58 @@ class Security():
         else:
             raise ValueError("Invalid input type. Please provide a sting.")
 
+class Crawler:
+
+    def __init__(self, start_url) -> None:
+        self.start_url = start_url
+        self.visited = set()
+        self.api_endpoints = []
+
+    def crawl(self, url):
+        '''
+        Crawls a url and extracts potential endpoints.
+        '''
+        if url in self.visited:
+            return
+        
+        self.visited.add(url)
+
+        try:
+            response = requests.get(url)
+        except Exception as e:
+            print(f'Error fetching url: {e}')
+
+        soup = bs(response.content, "lxml")
+
+        #Extract all anchors 
+        links = soup.find_all("a", href=True)
+
+        #Check for potential endpoint
+        for link in links:
+            href = link["href"]
+            if not href.startswith("https"):
+                href = f"{self.start_url}/{href}"
+            
+            if href not in self.api_endpoints:
+                self.api_endpoints.append(href)
+
+    def is_api_endpoint(self, url):
+        '''
+        Check if url is an api endpoint based on file type.
+        '''
+        extension = url.split(".")[-1]
+        return extension in ["json","xml","yaml"]
+    
+    def get_api_endpoints(self):
+        '''
+        Return a list of discovered API endpoints.
+        '''
+        return self.api_endpoints
+    
+
+#Test case
+finder = Crawler("https://open.cdc.gov/apis.html")
+finder.crawl(finder.start_url)
+
+api_endpoints = finder.get_api_endpoints()
+print(f"Found API endpoints: {api_endpoints}")
