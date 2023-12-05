@@ -15,10 +15,10 @@ Welcome to Scrapealicious CLI Tool!
 To see list of available commands type help and press enter. 
 Other wise select from the menu options below...
 
-1. API Scanner: type scan and press enter...
-2. Settings: type settings and press enter...
-3. Credits: type credits and press enter...
-4. Exit: type exit and press enter...
+1. Run: type run and press enter...
+3. Settings: type settings and press enter...
+4. Credits: type credits and press enter...
+5. Exit: type exit and press enter...
 
 Thank You for using our technology!
 -------------------------------------------------------------
@@ -41,6 +41,7 @@ Thank You for using our technology!
         table.add_row(['help [name]', 'display specific information about a command name.'])
         table.add_row(['info', 'display information about app'])
         table.add_row(['version', 'display current version of cli'])
+        table.add_row(['run', 'Enter a url and find api endpoints located at a url.'])
         print(table)
 
     def scanner_message(self):
@@ -50,11 +51,6 @@ API SCANNER TOOL
 Enter full URL below and press enter...
 '''
     
-    def blacklist(self):
-        return 'Retrieving black list...'
-    
-    def whitelist(self):
-        return 'Retrieving white list...'
     
     def settings(self):
         return 'Settings menu ... todo'

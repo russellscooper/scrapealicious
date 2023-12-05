@@ -1,7 +1,7 @@
 import json
 from bin.src.modules.dialogue import Dialogues
-from bin.src.core.tools import Security, Scanner
-from lib.utils import FileWriter
+from bin.src.core.tools import Security, Scanner, Crawler
+from lib.utils import FileWriter, Downloader
 
 #global variables 
 
@@ -14,35 +14,27 @@ while True:
     user_input = secure_menu_input.secure_string(input('Enter Selection: '))
 
     #Switches and cases
-    if user_input == 'scan':
+    if user_input == 'run':
         print(menus.scanner_message())
+        target_url = input('Enter URL: ')
+        tls_check = Security(secure=True)
+        checked_url = tls_check.ensure_tls(target_url)
         
-        target_url = input('Target URL: ')
-        tls_string = 'https://' + target_url
-        scan = Scanner(tls_string)
-        extracted_urls = scan.extractor()
-        validated = scan.validate_endpoint(extracted_urls)
-        print(validated)
+        cralwer = Crawler(checked_url)
+        scanner = Scanner(checked_url)
         
-        #Consider finding a better solution than a nested while loop. 
-        user_write = input("Would you like to write results to file(y/n)?")
-        while True:
-            if user_write == 'y':
-                file_writer = FileWriter("scan_results.txt")
-                
-                for entry in validated:
-                    file_writer.write(json.dumps(entry) + "\n")
-                break
-            elif user_write == 'n':
-                break
-            
-            else:
-                print('Please enter y or n...')
+        urls = scanner.extractor()
+        validated_url = scanner.validate_endpoint(urls)
+        api_endpoints = cralwer.crawl(validated_url)
+
+        print(api_endpoints)
 
     elif user_input == 'settings':
-        pass
+        print(menus.settings())
+
     elif user_input == 'credits':
-        pass
+        print(menus.credits())
+
     elif user_input == 'exit':
         break
     else:

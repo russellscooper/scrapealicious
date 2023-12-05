@@ -82,6 +82,14 @@ class Security():
             return rtc_string
         else:
             raise ValueError("Invalid input type. Please provide a sting.")
+    
+    def ensure_tls(self, target_url):
+        if not 'https://' in target_url:
+            tls_string = 'https://' + target_url
+        else:
+            target_url = tls_string
+        
+        return tls_string
 
 class Crawler:
 
@@ -89,34 +97,37 @@ class Crawler:
         self.start_url = start_url
         self.visited = set()
         self.api_endpoints = []
+    
+    def crawl(self, urls):
+        '''
+        Crawls a list of urls and extracts potential api endpoints
+        '''
+        api_endpoints = []
+        for url in urls:
+            if url in self.visited:
+                continue
 
-    def crawl(self, url):
-        '''
-        Crawls a url and extracts potential endpoints.
-        '''
-        if url in self.visited:
-            return
+            try:
+                response = requests.get(url)
+            except Exception as e:
+                print(f'Error fetching url: {e}')
+                continue
+
+            soup = bs(response.content, "lxml")
+
+            links = soup.find_all("a", href=True)
+
+            for link in links:
+                href = link["href"]
+                if not href.startswith("https"):
+                    href = f"{self.start_url}/{href}"
+
+                if href not in self.api_endpoints and self.is_api_endpoint(href):
+                    api_endpoints.append(href)
         
-        self.visited.add(url)
-
-        try:
-            response = requests.get(url)
-        except Exception as e:
-            print(f'Error fetching url: {e}')
-
-        soup = bs(response.content, "lxml")
-
-        #Extract all anchors 
-        links = soup.find_all("a", href=True)
-
-        #Check for potential endpoint
-        for link in links:
-            href = link["href"]
-            if not href.startswith("https"):
-                href = f"{self.start_url}/{href}"
+        return api_endpoints
             
-            if href not in self.api_endpoints:
-                self.api_endpoints.append(href)
+
 
     def is_api_endpoint(self, url):
         '''
@@ -132,9 +143,9 @@ class Crawler:
         return self.api_endpoints
     
 
-#Test case
-finder = Crawler("https://open.cdc.gov/apis.html")
-finder.crawl(finder.start_url)
+#example 
+#finder = Crawler("https://open.cdc.gov/apis.html")
+#finder.crawl(finder.start_url)
 
-api_endpoints = finder.get_api_endpoints()
-print(f"Found API endpoints: {api_endpoints}")
+#api_endpoints = finder.get_api_endpoints()
+#print(f"Found API endpoints: {api_endpoints}")
