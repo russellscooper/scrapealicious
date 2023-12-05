@@ -1,7 +1,7 @@
 #Tools used in the core functionality of the application 
 import requests
 import re
-
+from bs4 import BeautifulSoup as bs
 
 #Abstract class for endpoint scanning
 class Scanner:
@@ -82,4 +82,70 @@ class Security():
             return rtc_string
         else:
             raise ValueError("Invalid input type. Please provide a sting.")
+    
+    def ensure_tls(self, target_url):
+        if not 'https://' in target_url:
+            tls_string = 'https://' + target_url
+        else:
+            target_url = tls_string
+        
+        return tls_string
 
+class Crawler:
+
+    def __init__(self, start_url) -> None:
+        self.start_url = start_url
+        self.visited = set()
+        self.api_endpoints = []
+    
+    def crawl(self, urls):
+        '''
+        Crawls a list of urls and extracts potential api endpoints
+        '''
+        api_endpoints = []
+        for url in urls:
+            if url in self.visited:
+                continue
+
+            try:
+                response = requests.get(url)
+            except Exception as e:
+                print(f'Error fetching url: {e}')
+                continue
+
+            soup = bs(response.content, "lxml")
+
+            links = soup.find_all("a", href=True)
+
+            for link in links:
+                href = link["href"]
+                if not href.startswith("https"):
+                    href = f"{self.start_url}/{href}"
+
+                if href not in self.api_endpoints and self.is_api_endpoint(href):
+                    api_endpoints.append(href)
+        
+        return api_endpoints
+            
+
+
+    def is_api_endpoint(self, url):
+        '''
+        Check if url is an api endpoint based on file type.
+        '''
+        extension = url.split(".")[-1]
+        return extension in ["json","xml","yaml"]
+    
+    def get_api_endpoints(self):
+        '''
+        Return a list of discovered API endpoints.
+        '''
+        return self.api_endpoints
+    
+
+#example 
+#finder = Crawler("https://open.cdc.gov/apis.html")
+#finder.crawl(finder.start_url)
+
+#api_endpoints = finder.get_api_endpoints()
+#print(f"Found API endpoints: {api_endpoints}")
