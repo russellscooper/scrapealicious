@@ -142,10 +142,3 @@ class Crawler:
         '''
         return self.api_endpoints
     
-
-#example 
-#finder = Crawler("https://open.cdc.gov/apis.html")
-#finder.crawl(finder.start_url)
-
-#api_endpoints = finder.get_api_endpoints()
-#print(f"Found API endpoints: {api_endpoints}")

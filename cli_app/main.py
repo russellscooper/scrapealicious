@@ -1,4 +1,5 @@
 import json
+import schedule
 from bin.src.modules.dialogue import Dialogues
 from bin.src.core.tools import Security, Scanner, Crawler
 from lib.utils import FileWriter, Downloader
@@ -28,6 +29,37 @@ while True:
         api_endpoints = cralwer.crawl(validated_url)
 
         print(api_endpoints)
+
+    elif user_input == 'schedule':
+        while True:
+            print(menus.schedule_dialogue())
+
+            schedule_choice = input('Enter Option: ')
+
+            if schedule_choice == 'set':
+                pass
+        
+            elif schedule_choice  == 'cxc':
+                print(menus.schedule_warning())
+            
+                confirm_clear = input('Proceed? y/n')
+
+                if confirm_clear == 'y' or 'Y':
+                    schedule.clear()
+                    print('Schedule cleared ... all runs removed')
+                elif confirm_clear == 'n' or 'N':
+                    print('Clear aborted ... returning to menu')
+                    pass
+                else:
+                    print('Please enter y/n')
+
+            elif schedule_choice  == 'lst':
+                run_list = schedule.get_jobs()
+            
+                print(run_list)
+
+            elif schedule_choice  == 'return':
+                break
 
     elif user_input == 'settings':
         print(menus.settings())
