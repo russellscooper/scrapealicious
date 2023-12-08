@@ -1,6 +1,7 @@
 import os
 import requests 
-#Objects that help with file management
+
+#Objects and functions that help with file management
 
 class FileWriter:
 
@@ -35,7 +36,7 @@ class Downloader:
         if not filename:
             if isinstance(url, list):
                 url = url[0]
-                
+
         filename = os.path.basename(url)
 
         downloads_folder = os.path.join(os.path.expanduser("~"), "Downloads")
@@ -52,3 +53,4 @@ class Downloader:
                     f.write(chunk)
 
         print(f"Downloaded file: {filename} to Downloads folder")
+
